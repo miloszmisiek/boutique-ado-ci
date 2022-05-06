@@ -2,8 +2,12 @@ core.Microsoft*
 core.mongo*
 core.python*
 env.py
+# ignore compiled python code which we don't need in version control
 __pycache__/
 *.py[cod]
+# end of compiled python code files
 node_modules/
 .github/
 cloudinary_python.txt
+# ignore our development database file
+*.sqlite3
