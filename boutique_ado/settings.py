@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # for allauth - copied from documentation
+    # contirb.sites + sites_id are used by the social account to create proper callback URLS
+    'django.contrib.sites',
+    'allauth',
+    # allows the basic user account stuff like logging in and out, registretion and password reset
+    'allauth.account',
+    # handles login via social account
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -59,13 +68,48 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                # allows allauth and django to access http request object in out templates
+                # e.x. request.user or request.user.email in our django templates is available through context processor
+                # allauth templates use request object frequently
+                'django.template.context_processors.request', # required by allauth
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    # superuser login to admin site, allauth doesn't handle
+    # deffering from default django code
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    # allows users to login by email, django itself doesn't
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# contirb.sites + sites_id are used by the social account to create proper callback URLS
+SITE_ID = 1
+
+# allauth sends email to confirm user's email, this will be handled in the console with below setting
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# tells allauth that for authentification we want to use either username or email
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+# three seeting for emial handling: is required for account, must be verified and typed twice during signup
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+
+# min characters for username
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+
 
 WSGI_APPLICATION = 'boutique_ado.wsgi.application'
 
