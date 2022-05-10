@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'allauth.account',
     # handles login via social account
     'allauth.socialaccount',
+    # new app installed must be added
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +68,12 @@ ROOT_URLCONF = 'boutique_ado.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # after adding home app we need to include its template directory
+            os.path.join(BASE_DIR, 'templates'),
+            # as above but for custom allauth templates
+            os.path.join(BASE_DIR, 'templates', 'allauth'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
