@@ -5,5 +5,5 @@ from . import views
 
 urlpatterns = [
     # empty path ('') indicates that it is root URL
-    path('', views.index, name='home')
+    path('', views.all_products, name='products')
 ]
