@@ -1,0 +1,5 @@
+- Fixtures are used to load data very quickly into a django database so we don't have to do it all manually in the admin.
+
+- These fixture files will be used to create all of the products for our store.
+
+- When we use these fixtures we'll first create the categories and then the products since Django will need to know which category each product goes in.
