@@ -3,6 +3,11 @@ from django.db import models
 # Create your models here.
 
 class Category(models.Model):
+
+    class Meta:
+        # creating meta class to handle spelling mistakes by Django
+        verbose_name_plural = 'Categories'
+
     name = models.CharField(max_length=254)
     # optional name for front-end
     friendly_name = models.CharField(max_length=254, null=True, blank=True)
