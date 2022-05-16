@@ -66,7 +66,8 @@
                 <!-- SEARCH FORM -->
                 <!-- method get = submit searches as url parameters -->
                 <!-- no action = no url to submit the form -->
-                <form method="GET" action="">
+                <!-- when action is present, after submit it will end up in the url as a parameter (which can be accessed in all_products view) -->
+                <form method="GET" action="{% url 'products' %}">
                     <!-- w-100 = width 100% -->
                     <div class="input-group w-100">
                         <!-- name="q" = q is for query and that's what will be submited to the action url -->

@@ -1,0 +1,6 @@
+Q object
+In Jango if you use something like product.objects.filter. In order to filter a list of products. Everything will be ended together. In the case of our queries that would mean that when a user submits a query.
+In order for it to match the term would have to appear in both the product name and the product description. Instead, we want to return results where the query was matched in either the product name or the description.
+In order to accomplish this or logic, we need to use Q.
+This is worth knowing because in real-world database operations. Queries can become quite complex and using Q is often the only way to handle them.
+(more in Django documentation in queries portion)
