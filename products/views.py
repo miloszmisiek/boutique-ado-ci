@@ -25,6 +25,11 @@ def all_products(request):
                 sortkey = 'lower_name'
                 products = products.annotate(lower_name=Lower('name'))
 
+            if sortkey == 'category':
+                # double underscore to drill into a related model
+                # this allows the order_by method below to display products by category name and not by it's id
+                sortkey = 'category__name'
+
             if 'direction' in request.GET:
                 direction = request.GET['direction']
                 if direction == 'desc':
@@ -40,7 +45,6 @@ def all_products(request):
             And we're able to do this because category and product are related with a foreign key.
             """
             categories = request.GET['category'].split(',')
-
             products = products.filter(category__name__in=categories)
             categories = Category.objects.filter(name__in=categories)
 
