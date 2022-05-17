@@ -25,5 +25,6 @@ urlpatterns = [
     # added to import urls from home app
     path('', include('home.urls')),
     path('products/', include('products.urls')),
+    path('bag/', include('bag.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # ... and then use static function to add MEDIA_URL to our list of URLs

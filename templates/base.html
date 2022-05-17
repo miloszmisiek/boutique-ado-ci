@@ -121,7 +121,7 @@
                         <!-- grand_total variable will determine if there are items in the bag -->
                         <!-- it can be used in classes to change CSS depending on the state -->
                         <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link"
-                            href="">
+                            href="{% url 'view_bag' %}">
                             <div class="text-center">
                                 <div><i class="fas fa-shopping-bag fa-lg"></i></div>
                                 <p class="my-0">

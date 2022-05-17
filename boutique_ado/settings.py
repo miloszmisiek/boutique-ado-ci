@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # new app installed must be added
     'home',
     'products',
+    'bag',
 ]
 
 MIDDLEWARE = [
