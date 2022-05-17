@@ -13,15 +13,32 @@ def all_products(request):
     # query set to none to avoid errors when loading a page without any query
     query = None
     categories = None
+    sort = None
+    direction = None
 
     if request.GET:
-        # checking if category parameter is passed in the url
-        """
-        Double underscore syntax is common when making queries in django.
-        Using it here means we're looking for the name field of the category model.
-        And we're able to do this because category and product are related with a foreign key.
-        """
+
+        if 'sort' in request.GET:
+            sortkey = request.GET['sort']
+            sort = sortkey
+            if sortkey == 'name':
+                sortkey = 'lower_name'
+                products = products.annotate(lower_name=Lower('name'))
+
+            if 'direction' in request.GET:
+                direction = request.GET['direction']
+                if direction == 'desc':
+                    sortkey = f'-{sortkey}'
+            products = products.order_by(sortkey)
+
+
         if 'category' in request.GET:
+            # checking if category parameter is passed in the url
+            """
+            Double underscore syntax is common when making queries in django.
+            Using it here means we're looking for the name field of the category model.
+            And we're able to do this because category and product are related with a foreign key.
+            """
             categories = request.GET['category'].split(',')
 
             products = products.filter(category__name__in=categories)
@@ -39,11 +56,15 @@ def all_products(request):
             # with queries constracted they can be used to filter products
             products = products.filter(queries) 
 
+    # return the current sorting methodology to the template; both the sort and the direction variables stored -> do that with string formatting.
+    current_sorting = f'{sort}_{direction}'
+
     # context - to send data back to the template, here products from model are available in the template
     context = {
         'products': products,
         'search_term': query,
         'current_categories': categories,
+        'current_sorting': current_sorting,
     }
 
     return render(request, 'products/products.html', context)
